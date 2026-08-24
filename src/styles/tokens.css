@@ -1,0 +1,57 @@
+:root {
+  /* ---- Color: refined blue identity + restrained warm accents ---- */
+  --ink: #10162B;              /* deepest navy — text on light, base for dark sections */
+  --ink-soft: #232C48;
+  --indigo: #1B2D5C;           /* primary brand blue */
+  --indigo-2: #2E4B8F;         /* mid blue — gradients, hover states */
+  --sky: #9FC0E3;              /* light accent blue, from the trust mark */
+  --sky-soft: #DCE7F5;         /* pale blue tint for section backgrounds */
+
+  --paper: #FBFCFE;            /* primary background — cool off-white, not cream */
+  --paper-dim: #F3F5F9;        /* secondary section background */
+  --line: #E1E6EE;             /* hairline borders */
+  --line-strong: #C9D2E0;
+
+  --gold: #B4863A;             /* turmeric accent — used sparingly for seva/dharma emphasis */
+  --gold-soft: #EDE0C8;
+  --rose: #C97C93;             /* lotus accent — rarest use, Sanskrit / core-belief block */
+
+  --text: #1A2138;
+  --text-soft: #4B5468;
+  --text-faint: #7A8298;
+  --text-on-dark: #EDF1F9;
+  --text-on-dark-soft: #AFBAD6;
+
+  /* ---- Type ---- */
+  --font-display: 'Fraunces', 'Iowan Old Style', serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-devanagari: 'Noto Serif Devanagari', 'Fraunces', serif;
+
+  --step-caption: 0.8125rem;
+  --step-body: 1.0625rem;
+  --step-body-lg: 1.1875rem;
+  --step-h5: 1.375rem;
+  --step-h4: 1.75rem;
+  --step-h3: 2.25rem;
+  --step-h2: 3rem;
+  --step-h1: 4.25rem;
+
+  /* ---- Layout ---- */
+  --max-width: 1180px;
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --shadow-soft: 0 1px 2px rgba(16, 22, 43, 0.04), 0 10px 30px rgba(16, 22, 43, 0.06);
+  --shadow-lift: 0 8px 24px rgba(16, 22, 43, 0.10), 0 2px 6px rgba(16, 22, 43, 0.06);
+
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (max-width: 720px) {
+  :root {
+    --step-h1: 2.6rem;
+    --step-h2: 2.05rem;
+    --step-h3: 1.6rem;
+    --step-h4: 1.35rem;
+  }
+}
