@@ -30,13 +30,6 @@ export default function Contribute() {
             ))}
           </div>
 
-          <ScrollReveal delay={120}>
-            <div className="card" style={{ marginTop: '1.5rem', background: 'var(--sky-soft)', border: 'none' }}>
-              <p style={{ color: 'var(--indigo)', fontWeight: 500, lineHeight: 1.6 }}>
-                {contributePage.recognition}
-              </p>
-            </div>
-          </ScrollReveal>
         </div>
       </section>
 
@@ -52,10 +45,9 @@ export default function Contribute() {
                 copyable — tap the copy buttons on the panel to avoid mistyping any digits.
               </p>
               <p style={{ color: 'var(--text-faint)', fontSize: '0.9rem' }}>
-                Samvidadeyam Trust does not currently list a UPI ID, QR code or online payment
-                gateway on its source materials — for any method beyond direct bank transfer,
-                please <a href="/contact" style={{ color: 'var(--indigo)', textDecoration: 'underline' }}>get in touch</a> directly.
+                For any method beyond direct bank transfer, please <a href="/contact" style={{ color: 'var(--indigo)', textDecoration: 'underline' }}>get in touch</a> directly.
               </p>
+              <img className="contribute-upi-image" src="/assets/contribute/upi-image.jpg" alt="UPI payment information" />
             </ScrollReveal>
             <ScrollReveal delay={100}>
               <DonationCard />

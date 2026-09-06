@@ -3,16 +3,18 @@ import SectionHeader from '../components/SectionHeader.jsx'
 import ScrollReveal from '../components/ScrollReveal.jsx'
 import Tabs from '../components/Tabs.jsx'
 import ActivityCard from '../components/ActivityCard.jsx'
-import MissionCard from '../components/MissionCard.jsx'
-import { activities, mission, inAction } from '../data/siteContent.js'
+import { activities, inAction } from '../data/siteContent.js'
 
 export default function Activities() {
   const [filter, setFilter] = useState('all')
+  const visibleActivities = activities.items.filter(
+    (activity) => activity.id !== 'cultural-preservation',
+  )
 
   const filtered = useMemo(() => {
-    if (filter === 'all') return activities.items
-    return activities.items.filter((a) => a.category === filter)
-  }, [filter])
+    if (filter === 'all') return visibleActivities
+    return visibleActivities.filter((a) => a.category === filter)
+  }, [filter, visibleActivities])
 
   return (
     <>
@@ -24,22 +26,6 @@ export default function Activities() {
             Three commitments guide everything Samvidadeyam does — and five focus areas put those
             commitments into practice.
           </p>
-        </div>
-      </section>
-
-      {/* Mission pillars */}
-      <section className="section">
-        <div className="container">
-          <ScrollReveal>
-            <SectionHeader eyebrow={mission.eyebrow} title={mission.title} />
-          </ScrollReveal>
-          <div className="grid grid--3">
-            {mission.pillars.map((m, i) => (
-              <ScrollReveal key={m.title} delay={i * 80}>
-                <MissionCard title={m.title} body={m.body} />
-              </ScrollReveal>
-            ))}
-          </div>
         </div>
       </section>
 

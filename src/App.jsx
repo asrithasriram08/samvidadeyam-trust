@@ -10,6 +10,7 @@ import Events from './pages/Events.jsx'
 import Gallery from './pages/Gallery.jsx'
 import Socials from './pages/Socials.jsx'
 import Trustees from './pages/Trustees.jsx'
+import FoundingMembers from './pages/FoundingMembers.jsx'
 import Youtube from './pages/Youtube.jsx'
 import Contribute from './pages/Contribute.jsx'
 import Contact from './pages/Contact.jsx'
@@ -38,6 +39,7 @@ export default function App() {
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/socials" element={<Socials />} />
           <Route path="/trustees" element={<Trustees />} />
+          <Route path="/founding-members" element={<FoundingMembers />} />
           <Route path="/youtube" element={<Youtube />} />
           <Route path="/contribute" element={<Contribute />} />
           <Route path="/contact" element={<Contact />} />

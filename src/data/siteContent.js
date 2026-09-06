@@ -12,7 +12,10 @@ export const nav = [
   {
     label: 'About',
     to: '/about',
-    children: [{ label: 'Trustees', to: '/trustees' }],
+    children: [
+      { label: 'Trustees', to: '/trustees' },
+      { label: 'Founding Members', to: '/founding-members' },
+    ],
   },
   { label: 'Activities', to: '/activities' },
   { label: 'Events', to: '/events' },
@@ -22,7 +25,6 @@ export const nav = [
     to: '/socials',
     children: [{ label: 'YouTube', to: '/youtube' }],
   },
-  { label: 'Contribute', to: '/contribute' },
   { label: 'Contact', to: '/contact' },
 ];
 
@@ -67,7 +69,6 @@ export const coreBelief = {
 export const trustees = {
   title: 'TRUSTEES',
   intro: 'The trustees guide the long-term stewardship and governance of Samvidadeyam Trust.',
-  note: 'Trustee names and roles can be added here once the final governance details are confirmed.',
 };
 
 export const vision = {
@@ -83,7 +84,6 @@ export const vision = {
 };
 
 export const mission = {
-  title: 'OUR SACRED MISSION',
   pillars: [
     {
       title: 'Flourish Veda Pāṭaśhālas',
@@ -93,10 +93,14 @@ export const mission = {
       title: 'Care Vedic Students (Śiṣyas)',
       body: 'Ensuring Vedic students receive proper support after their Vedic education, during their initial career path.',
     },
-    {
-      title: 'Vedic Community Upliftment',
-      body: 'Creating a connection between Veda Pāṭaśhālas, Vedic students, and the Vaideeka community.',
-    },
+  ],
+};
+
+export const vedicChanting = {
+  title: 'Vedic Chanting for Laukika Jeevanam',
+  subtitle: 'लौकिक जीवनाय वैदिकपारायणम्',
+  paragraphs: [
+    'Through sincere Saptāhānta Abhyāsa (सप्ताहान्त अभ्यासः) — regular weekend practice — with श्रद्धा, discipline, and focus.',
   ],
 };
 
@@ -120,7 +124,7 @@ export const activities = {
       number: '01',
       category: 'patashalas',
       title: 'Veda Pāṭaśhāla Support',
-      body: 'Funding scholarships, teaching materials, and institutional development for authentic Vedic learning centres.',
+      body: 'Regular support for the preservation and advancement of Veda Patashalas, and participation in Vedic chanting on special occasions.',
       filled: true,
     },
     {
@@ -132,11 +136,11 @@ export const activities = {
       filled: true,
     },
     {
-      id: 'scholar-mentorship',
+      id: 'vedic-chanting',
       number: '03',
-      category: 'scholars',
-      title: 'Scholar Mentorship',
-      body: 'Connecting aspiring students with experienced Vaideekas to create a platform for their future careers.',
+      category: 'culture',
+      title: 'Vedic Chanting for Laukika Jeevanam',
+      body: 'Through sincere Saptāhānta Abhyāsa (सप्ताहान्त अभ्यासः) — regular weekend practice — with श्रद्धा, discipline, and focus.',
       filled: true,
     },
     {
@@ -150,12 +154,12 @@ export const activities = {
     },
     {
       id: 'vedic-events',
-      number: '05',
+      number: '04',
       category: 'events',
       title: 'Vedic Events',
       body: 'Conducting Vedic events for the community.',
-      filled: false,
-      note: 'A calendar of events will be published here as details are confirmed.',
+      filled: true,
+      link: { label: 'Events', to: '/events' },
     },
   ],
 };
@@ -233,8 +237,6 @@ export const contributePage = {
       body: 'Donate books, materials, or professional services to further our mission.',
     },
   ],
-  recognition:
-    'Special Recognition: Major donors and partners receive regular updates, invitations to exclusive events, and opportunities to witness firsthand the transformative impact of their generosity.',
 };
 
 export const donation = {
@@ -271,13 +273,8 @@ export const contact = {
   eyebrow: 'Contact',
   title: 'Connect with us',
   intro: 'For questions about the Trust, our Pāṭaśhāla partners, volunteering, or partnership, reach out — or send a message below.',
-  // Source materials (PPT and public site) list "Email" and "Mobile" as
-  // fields without supplying the values themselves. Do not invent contact
-  // details - update these two lines directly once the Trust confirms them.
   email: null,
   mobile: null,
-  formNote:
-    'This form is a UI only - connect it to the Trust’s actual email service or form backend before publishing (see README, “Connecting the contact form”).',
 };
 
 export const lineage = {

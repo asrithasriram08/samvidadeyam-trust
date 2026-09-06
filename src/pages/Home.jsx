@@ -7,7 +7,7 @@ import WordCycle from '../components/WordCycle.jsx'
 import MissionCard from '../components/MissionCard.jsx'
 import ActivityCard from '../components/ActivityCard.jsx'
 import BrandMark from '../components/BrandMark.jsx'
-import { hero, essence, vision, mission, activities, inAction, whyItMatters, getInvolved, media } from '../data/siteContent.js'
+import { hero, essence, vision, mission, vedicChanting, activities, inAction, whyItMatters, getInvolved, media } from '../data/siteContent.js'
 
 export default function Home() {
   return (
@@ -50,43 +50,39 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ---------------- Vision pillars ---------------- */}
+      {/* ---------------- Vision and sacred mission ---------------- */}
       <section className="section section--tint">
         <div className="container">
           <ScrollReveal>
-            <SectionHeader eyebrow={vision.eyebrow} title={vision.title} body={vision.body} center />
+            <SectionHeader title="OUR VISION AND SACRED MISSION" center className="section-header--single-line" />
           </ScrollReveal>
-          <div className="grid grid--4">
-            {vision.pillars.map((p, i) => (
-              <ScrollReveal key={p.title} delay={i * 70}>
-                <div className="pillar">
-                  <div className="pillar__mark" aria-hidden="true">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-                      <path d="M12 21c-5-3-8-7-8-11a8 8 0 0116 0c0 4-3 8-8 11z" strokeLinecap="round" strokeLinejoin="round" />
-                      <circle cx="12" cy="10" r="2.4" />
-                    </svg>
+          <div className="vision-mission-layout">
+            <ScrollReveal className="vision-mission-layout__vision">
+              <p className="lede">{vision.body}</p>
+              <ul className="list-plain" style={{ marginTop: '1.5rem' }}>
+                {vision.pillars.slice(0, 2).map((p) => (
+                  <li key={p.title}><strong>{p.title}</strong> — {p.note}</li>
+                ))}
+              </ul>
+            </ScrollReveal>
+            <div className="vision-mission-layout__mission">
+              <div className="vision-mission-layout__cards">
+                {mission.pillars.map((m, i) => (
+                  <ScrollReveal key={m.title} delay={i * 80}>
+                    <MissionCard title={m.title} body={m.body} />
+                  </ScrollReveal>
+                ))}
+                <ScrollReveal delay={160}>
+                  <div className="mission-card vedic-chanting">
+                  <h3>{vedicChanting.title}</h3>
+                  <p className="vedic-chanting__subtitle sanskrit">{vedicChanting.subtitle}</p>
+                  {vedicChanting.paragraphs.map((paragraph) => (
+                    <p key={paragraph}>{paragraph}</p>
+                  ))}
                   </div>
-                  <h4>{p.title}</h4>
-                  <p>{p.note}</p>
-                </div>
-              </ScrollReveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ---------------- Mission ---------------- */}
-      <section className="section">
-        <div className="container">
-          <ScrollReveal>
-            <SectionHeader eyebrow={mission.eyebrow} title={mission.title} />
-          </ScrollReveal>
-          <div className="grid grid--3">
-            {mission.pillars.map((m, i) => (
-              <ScrollReveal key={m.title} delay={i * 80}>
-                <MissionCard title={m.title} body={m.body} />
-              </ScrollReveal>
-            ))}
+                </ScrollReveal>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -143,7 +139,7 @@ export default function Home() {
       <section className="section">
         <div className="container">
           <ScrollReveal>
-            <SectionHeader eyebrow={whyItMatters.eyebrow} title={whyItMatters.title} body={whyItMatters.body} center />
+            <SectionHeader eyebrow={whyItMatters.eyebrow} title={whyItMatters.title} body={whyItMatters.body} center className="section-header--single-line why-it-matters-header" />
           </ScrollReveal>
           <div className="grid grid--3">
             {whyItMatters.points.map((pt, i) => (

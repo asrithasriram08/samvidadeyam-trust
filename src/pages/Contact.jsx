@@ -63,10 +63,6 @@ export default function Contact() {
                 )}
               </div>
             </div>
-
-            <p style={{ marginTop: '2rem', fontSize: '0.85rem', color: 'var(--text-faint)', lineHeight: 1.6 }}>
-              {contact.formNote}
-            </p>
           </div>
 
           <div className="card">
@@ -100,7 +96,7 @@ export default function Contact() {
                   <label htmlFor="message">Message</label>
                   <textarea id="message" name="message" rows="5" required />
                 </div>
-                <button type="submit" className="btn btn--primary btn--block">Send Message</button>
+                <button type="submit" className="btn btn--primary btn--block">Send Message (CANT SEND YET)</button>
               </form>
             )}
           </div>

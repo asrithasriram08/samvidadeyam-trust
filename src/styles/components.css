@@ -95,7 +95,7 @@
   top: calc(100% + 12px);
   left: 50%;
   transform: translateX(-50%);
-  min-width: 170px;
+  min-width: 220px;
   display: none;
   flex-direction: column;
   background: rgba(255, 255, 255, 0.96);
@@ -114,6 +114,7 @@
   border-radius: 10px;
   color: var(--ink);
   font-size: 0.9rem;
+  white-space: nowrap;
 }
 .navbar__dropdown-menu a:hover {
   background: rgba(99, 110, 169, 0.08);
@@ -267,6 +268,17 @@
   margin-right: auto;
   text-align: center;
 }
+.section-header--single-line {
+  max-width: none;
+}
+.section-header--single-line h2 { white-space: nowrap; }
+.why-it-matters-header .lede {
+  max-width: 850px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: left;
+}
+.lineage-title { font-size: var(--step-h3); }
 .section-header .eyebrow {
   display: block;
   margin-bottom: 0.85rem;
@@ -298,11 +310,72 @@
 .grid--2 { grid-template-columns: repeat(2, 1fr); }
 .grid--3 { grid-template-columns: repeat(3, 1fr); }
 .grid--4 { grid-template-columns: repeat(4, 1fr); }
+.vision-mission-layout {
+  display: block;
+}
+.vision-mission-layout__vision {
+  max-width: 1050px;
+  margin: 0 auto;
+  text-align: center;
+}
+.vision-mission-layout__vision > .lede {
+  max-width: 980px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+.vision-mission-layout__vision .list-plain {
+  max-width: 900px;
+  margin-left: auto !important;
+  margin-right: auto;
+  text-align: center;
+}
+.vision-mission-layout__vision .list-plain li {
+  padding-left: 0;
+}
+.vision-mission-layout__vision .list-plain li::before {
+  position: static;
+  display: inline-block;
+  margin: 0 0.75rem 0.2rem 0;
+}
+.vision-mission-layout__mission { margin-top: 2.5rem; }
+.vision-mission-layout__cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.25rem;
+  align-items: stretch;
+}
+.vision-mission-layout__cards > * { display: flex; }
+.vision-mission-layout__cards .mission-card { width: 100%; }
+.vedic-chanting {
+  height: 100%;
+}
+.vedic-chanting h3 {
+  font-size: var(--step-h5);
+  margin-bottom: 0.35rem;
+}
+.vedic-chanting p {
+  color: var(--text-on-dark-soft) !important;
+  line-height: 1.6;
+  margin-bottom: 0.85rem;
+}
+.vedic-chanting__subtitle,
+.vedic-chanting__verse {
+  color: var(--indigo) !important;
+}
+.vedic-chanting__verse { margin-top: 1rem; }
+.vedic-chanting__closing {
+  color: var(--text-on-dark) !important;
+  font-weight: 600;
+}
 @media (max-width: 900px) {
   .grid--3, .grid--4 { grid-template-columns: repeat(2, 1fr); }
+  .vision-mission-layout__cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 620px) {
   .grid--2, .grid--3, .grid--4 { grid-template-columns: 1fr; }
+  .vision-mission-layout__cards { grid-template-columns: 1fr; }
+  .section-header--single-line h2 { white-space: normal; }
 }
 
 /* Gallery destination strips */
@@ -520,6 +593,70 @@
   padding-top: 0.75rem;
   font-style: italic;
 }
+.activity-card__link {
+  color: var(--indigo);
+  border-top: 1px dashed var(--line-strong);
+  padding-top: 0.75rem;
+  font-weight: 600;
+}
+.activity-card__link:hover { color: var(--gold); }
+
+/* Trustee profile image */
+.trustee-card__image {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-bottom: 1.25rem;
+}
+.trustee-card__bio {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--text-soft);
+}
+.card--plain .trustee-card__image + h3 {
+  margin-bottom: 0.45rem;
+}
+.card--plain .trustee-card__bio {
+  margin-top: 0.35rem;
+}
+
+/* Founding members list */
+.founding-members-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 5rem;
+  row-gap: 0;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0;
+  list-style: none;
+  counter-reset: founding-member;
+}
+.founding-members-list li {
+  counter-increment: founding-member;
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  min-height: 4.25rem;
+  border-bottom: 1px solid var(--line);
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: var(--step-h5);
+}
+.founding-members-list li::before {
+  content: counter(founding-member, decimal-leading-zero);
+  flex: 0 0 2rem;
+  color: var(--gold);
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+@media (max-width: 620px) {
+  .founding-members-list { grid-template-columns: 1fr; }
+}
 
 /* Tabs / filter */
 .tabs {
@@ -572,6 +709,14 @@
 }
 .contribution-card h3 { font-size: 1.2rem; margin-bottom: 0.6rem; }
 .contribution-card p { color: var(--text-soft); line-height: 1.6; }
+.contribute-upi-image {
+  display: block;
+  width: min(280px, 100%);
+  height: auto;
+  margin-top: 1.5rem;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-soft);
+}
 
 /* Donation card */
 .donation-card {

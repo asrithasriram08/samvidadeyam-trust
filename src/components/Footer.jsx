@@ -1,6 +1,6 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import { brand, nav, footer, media, donation } from '../data/siteContent.js'
+import { brand, nav, footer, media } from '../data/siteContent.js'
 import BrandMark from './BrandMark.jsx'
 
 export default function Footer() {
@@ -29,7 +29,7 @@ export default function Footer() {
             <h5>Connect</h5>
             <div className="footer__links">
               <a href={media.youtubeUrl} target="_blank" rel="noreferrer noopener">YouTube Channel</a>
-              <span>{donation.bank}</span>
+              <NavLink to="/contact">Contact</NavLink>
             </div>
           </div>
         </div>
