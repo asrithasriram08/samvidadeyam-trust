@@ -3,7 +3,7 @@ import SectionHeader from '../components/SectionHeader.jsx'
 import ScrollReveal from '../components/ScrollReveal.jsx'
 import ContributionCard from '../components/ContributionCard.jsx'
 import DonationCard from '../components/DonationCard.jsx'
-import { contributePage, getInvolved } from '../data/siteContent.js'
+import { contributePage } from '../data/siteContent.js'
 
 export default function Contribute() {
   return (
@@ -13,23 +13,6 @@ export default function Contribute() {
           <span className="eyebrow">{contributePage.eyebrow}</span>
           <h1 style={{ marginTop: '0.85rem' }}>{contributePage.headline}</h1>
           <p>{contributePage.supporting}</p>
-        </div>
-      </section>
-
-      {/* Ways to contribute */}
-      <section className="section">
-        <div className="container">
-          <ScrollReveal>
-            <SectionHeader eyebrow="Ways to Contribute" title="Four ways to give" />
-          </ScrollReveal>
-          <div className="grid grid--2">
-            {contributePage.ways.map((w, i) => (
-              <ScrollReveal key={w.title} delay={i * 60}>
-                <ContributionCard {...w} />
-              </ScrollReveal>
-            ))}
-          </div>
-
         </div>
       </section>
 
@@ -56,25 +39,22 @@ export default function Contribute() {
         </div>
       </section>
 
-      {/* Beyond donating */}
+      {/* Ways to contribute */}
       <section className="section">
         <div className="container">
           <ScrollReveal>
-            <SectionHeader eyebrow="Beyond Donating" title="Volunteer or partner with us" body={getInvolved.intro} />
+            <SectionHeader eyebrow="Ways to Contribute" title="Four ways to give" />
           </ScrollReveal>
           <div className="grid grid--2">
-            {getInvolved.paths.slice(1).map((p, i) => (
-              <ScrollReveal key={p.title} delay={i * 80}>
-                <div className="card">
-                  <h3 style={{ fontSize: '1.2rem', marginBottom: '0.75rem' }}>{p.title}</h3>
-                  <p style={{ color: 'var(--text-soft)', lineHeight: 1.6, marginBottom: '1.25rem' }}>{p.body}</p>
-                  <a href={p.cta.to} className="btn btn--outline btn--sm">{p.cta.label}</a>
-                </div>
+            {contributePage.ways.map((w, i) => (
+              <ScrollReveal key={w.title} delay={i * 60}>
+                <ContributionCard {...w} />
               </ScrollReveal>
             ))}
           </div>
         </div>
       </section>
+
     </>
   )
 }

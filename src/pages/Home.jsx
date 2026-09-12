@@ -7,7 +7,8 @@ import WordCycle from '../components/WordCycle.jsx'
 import MissionCard from '../components/MissionCard.jsx'
 import ActivityCard from '../components/ActivityCard.jsx'
 import BrandMark from '../components/BrandMark.jsx'
-import { hero, essence, vision, mission, vedicChanting, activities, inAction, whyItMatters, getInvolved, media } from '../data/siteContent.js'
+import { AccordionItem } from '../components/Accordion.jsx'
+import { hero, coreBelief, essence, vision, mission, vedicChanting, activities, inAction, whyItMatters, getInvolved, media } from '../data/siteContent.js'
 
 export default function Home() {
   return (
@@ -30,6 +31,31 @@ export default function Home() {
           <div className="hero__visual">
             <LineageThread variant="hero" className="hero__thread" />
             <BrandMark size="lg" className="hero__mark" alt="Samvidadeyam Trust emblem" />
+          </div>
+        </div>
+      </section>
+
+      {/* ---------------- Core belief ---------------- */}
+      <section className="section section--tint">
+        <div className="container">
+          <ScrollReveal>
+            <SectionHeader eyebrow={coreBelief.eyebrow} title={coreBelief.title} />
+          </ScrollReveal>
+
+          <div className="grid grid--2" style={{ alignItems: 'start' }}>
+            <ScrollReveal>
+              <div className="sanskrit-block">
+                <p style={{ marginBottom: '0.75rem', color: 'var(--text-on-dark-soft)' }}>{coreBelief.intro}</p>
+                <p className="sanskrit-block__verse sanskrit">{coreBelief.sanskrit}</p>
+                <p className="sanskrit-block__translation">{coreBelief.translation}</p>
+              </div>
+            </ScrollReveal>
+
+            <ScrollReveal delay={100}>
+              <AccordionItem title="What does “Samvidadeyam” mean?" defaultOpen>
+                <p>{coreBelief.reveal}</p>
+              </AccordionItem>
+            </ScrollReveal>
           </div>
         </div>
       </section>

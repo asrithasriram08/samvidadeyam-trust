@@ -260,7 +260,7 @@ export const gallery = {
       image: 'https://images.unsplash.com/photo-1604608672516-f1b9f7a7f1f1?auto=format&fit=crop&w=700&q=85',
       main: '/assets/gallery/photo-archive/photo-archive-main.jpg',
       images: Array.from(
-        { length: 1 },
+        { length: 2 },
         (_, index) => `/assets/gallery/photo-archive/photo-archive-${index + 1}.jpg`,
       ),
     },
@@ -279,7 +279,20 @@ export const gallery = {
       note: 'Highlights from ongoing support to Pāṭaśhālas and seva work.',
       image: 'https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=700&q=85',
       main: '/assets/gallery/field-reports/field-reports-main.jpg',
-      images: ['/assets/gallery/field-reports/field-reports-1.jpg'],
+      images: Array.from(
+        { length: 3 },
+        (_, index) => `/assets/gallery/field-reports/field-report-${index + 1}.jpg`,
+      ),
+    },
+    {
+      title: 'Vedic chant events',
+      note: 'Gatherings that bring Vedic chanting into community life.',
+      image: 'https://images.unsplash.com/photo-1507838153414-b4b713384a76?auto=format&fit=crop&w=700&q=85',
+      main: '/assets/gallery/vedic-chant-events/vedic-chant-events-1.jpg',
+      images: Array.from(
+        { length: 4 },
+        (_, index) => `/assets/gallery/vedic-chant-events/vedic-chant-events-${index + 1}.jpg`,
+      ),
     },
   ],
 };

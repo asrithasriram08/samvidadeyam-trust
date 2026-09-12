@@ -155,12 +155,15 @@
 .navbar__mobile {
   position: fixed;
   inset: 0;
-  top: 0;
-  background: var(--paper);
-  z-index: 200;
+  z-index: 1000;
   display: flex;
   flex-direction: column;
-  padding: 20px;
+  height: 100dvh;
+  max-height: 100dvh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background: var(--paper);
+  padding: max(16px, env(safe-area-inset-top)) 20px max(20px, env(safe-area-inset-bottom));
   animation: mobile-in 0.25s var(--ease);
 }
 @keyframes mobile-in {
@@ -171,7 +174,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
+  flex-shrink: 0;
+  margin-bottom: 1rem;
 }
 .navbar__mobile-links {
   display: flex;
@@ -187,26 +191,30 @@
 }
 .navbar__mobile-links a {
   font-family: var(--font-display);
-  font-size: 1.6rem;
-  padding: 14px 4px;
+  font-size: 1.35rem;
+  padding: 10px 4px;
   border-bottom: 1px solid var(--line);
   color: var(--ink);
 }
 .navbar__mobile-subitem {
-  font-size: 1.1rem !important;
-  padding-left: 1rem !important;
+  font-size: 1rem !important;
+  padding: 7px 4px 7px 1rem !important;
   border-bottom: none !important;
   color: var(--text-soft) !important;
 }
 .navbar__mobile-actions {
-  margin-top: auto;
-  padding-top: 1.5rem;
+  flex-shrink: 0;
+  margin-top: 1rem;
+  padding-top: 0.5rem;
 }
 
 @media (max-width: 860px) {
   .navbar__links { display: none; }
   .navbar__actions .btn { display: none; }
   .navbar__hamburger { display: inline-flex; }
+  .navbar__row { gap: 10px; }
+  .navbar__brand { min-width: 0; font-size: 1rem; }
+  .navbar__brand span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 }
 
 /* =========================================================
