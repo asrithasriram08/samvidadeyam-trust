@@ -8,7 +8,7 @@ import MissionCard from '../components/MissionCard.jsx'
 import ActivityCard from '../components/ActivityCard.jsx'
 import BrandMark from '../components/BrandMark.jsx'
 import { AccordionItem } from '../components/Accordion.jsx'
-import { hero, coreBelief, essence, vision, mission, vedicChanting, activities, inAction, whyItMatters, getInvolved, media } from '../data/siteContent.js'
+import { hero, coreBelief, essence, vision, mission, vedicChanting, activities, inAction, whyItMatters, media } from '../data/siteContent.js'
 
 export default function Home() {
   return (
@@ -172,26 +172,6 @@ export default function Home() {
               <ScrollReveal key={pt} delay={i * 80}>
                 <div className="card" style={{ textAlign: 'center' }}>
                   <p style={{ fontFamily: 'var(--font-display)', fontSize: '1.15rem', color: 'var(--ink)' }}>{pt}</p>
-                </div>
-              </ScrollReveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ---------------- Get involved ---------------- */}
-      <section className="section section--tint">
-        <div className="container">
-          <ScrollReveal>
-            <SectionHeader eyebrow={getInvolved.eyebrow} title={getInvolved.title} body={getInvolved.intro} />
-          </ScrollReveal>
-          <div className="grid grid--3">
-            {getInvolved.paths.map((p, i) => (
-              <ScrollReveal key={p.title} delay={i * 80}>
-                <div className="card">
-                  <h3 style={{ fontSize: '1.2rem', marginBottom: '0.75rem' }}>{p.title}</h3>
-                  <p style={{ color: 'var(--text-soft)', lineHeight: 1.6, marginBottom: '1.25rem' }}>{p.body}</p>
-                  <NavLink to={p.cta.to} className="btn btn--outline btn--sm">{p.cta.label}</NavLink>
                 </div>
               </ScrollReveal>
             ))}

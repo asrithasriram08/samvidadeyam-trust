@@ -251,7 +251,7 @@ export const media = {
 
 export const gallery = {
   eyebrow: 'Gallery',
-  title: 'See the living Tradition',
+  title: 'Photos',
   body: '',
   items: [
     {
