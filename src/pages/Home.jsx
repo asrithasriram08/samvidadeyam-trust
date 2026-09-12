@@ -60,7 +60,7 @@ export default function Home() {
             <ScrollReveal className="vision-mission-layout__vision">
               <p className="lede">{vision.body}</p>
               <ul className="list-plain" style={{ marginTop: '1.5rem' }}>
-                {vision.pillars.slice(0, 2).map((p) => (
+                {vision.pillars.map((p) => (
                   <li key={p.title}><strong>{p.title}</strong> — {p.note}</li>
                 ))}
               </ul>

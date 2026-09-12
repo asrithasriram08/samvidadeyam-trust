@@ -74,12 +74,11 @@ export const trustees = {
 export const vision = {
   title: 'OUR VISION',
   body:
-    'Our vision is to create a world where the profound wisdom of the Vedas shines brightly, nurturing spiritual growth and cultural richness across generations. We envision thriving Veda Pāṭaśhālas, empowered Vedic students, and a globally connected community dedicated to preserving and living the ancient truths of Sanātana Dharma — ensuring its timeless relevance for all. A society where Vedic wisdom thrives, where Veda Pāṭaśhālas flourish, and where giving becomes a sacred, conscious act aligned with dharma.',
+    'Our vision is to create a world where the profound wisdom of the Vedas shines brightly, nurturing spiritual growth and cultural richness across generations. We envision thriving Veda Pāṭaśhālas, empowered Vedic students, and a working professional community dedicated to preserving and living the ancient truths of Sanātana Dharma — ensuring its timeless relevance for all. A society where Vedic wisdom thrives, where Veda Pāṭaśhālas flourish, and where giving becomes a sacred, conscious act aligned with dharma.',
   pillars: [
     { title: 'Veda Pāṭaśhālas', note: 'Flourishing centres of oral, chanted Vedic learning' },
     { title: 'Vedic Students', note: 'Empowered and supported into their next chapter' },
-    { title: 'Community', note: 'A globally connected Vaideeka community' },
-    { title: 'Dharma', note: 'Giving as a sacred, conscious act' },
+    { title: 'Vedic Chanting', note: 'Through sincere Saptāhānta Abhyāsa — regular weekend practice' },
   ],
 };
 
@@ -110,21 +109,13 @@ export const vedicChanting = {
 export const activities = {
   eyebrow: 'Our Focus Areas',
   title: 'What we actually do',
-  filters: [
-    { key: 'all', label: 'All' },
-    { key: 'patashalas', label: 'Pāṭaśhālas' },
-    { key: 'students', label: 'Students' },
-    { key: 'scholars', label: 'Scholars' },
-    { key: 'culture', label: 'Culture' },
-    { key: 'events', label: 'Events' },
-  ],
   items: [
     {
       id: 'patashala-support',
       number: '01',
       category: 'patashalas',
       title: 'Veda Pāṭaśhāla Support',
-      body: 'Regular support for the preservation and advancement of Veda Patashalas, and participation in Vedic chanting on special occasions.',
+      body: 'Regular support for the preservation and advancement of Veda Patashalas.',
       filled: true,
     },
     {
@@ -229,7 +220,7 @@ export const contributePage = {
     {
       number: '03',
       title: 'Establish Connect',
-      body: 'Connect Samvidadeyam Trust to your Pāṭaśhālas and the Vaideeka community.',
+      body: 'Connect Samvidadeyam Trust to your Pāṭaśhālas.',
     },
     {
       number: '04',
@@ -263,9 +254,33 @@ export const gallery = {
   title: 'See the living Tradition',
   body: 'A visual record of places, people, and moments that carry Vedic knowledge forward.',
   items: [
-    { title: 'Photo archive', note: 'Images from community events and learning spaces.', image: 'https://images.unsplash.com/photo-1604608672516-f1b9f7a7f1f1?auto=format&fit=crop&w=700&q=85' },
-    { title: 'Teaching moments', note: 'Snapshots of Vedic learning, chanting, and student mentorship.', image: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=700&q=85' },
-    { title: 'Field reports', note: 'Highlights from ongoing support to Pāṭaśhālas and seva work.', image: 'https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=700&q=85' },
+    {
+      title: 'Photo archive',
+      note: 'Images from community events and learning spaces.',
+      image: 'https://images.unsplash.com/photo-1604608672516-f1b9f7a7f1f1?auto=format&fit=crop&w=700&q=85',
+      main: '/assets/gallery/photo-archive/photo-archive-main.jpg',
+      images: Array.from(
+        { length: 1 },
+        (_, index) => `/assets/gallery/photo-archive/photo-archive-${index + 1}.jpg`,
+      ),
+    },
+    {
+      title: 'Vedic Practice Session',
+      note: 'Snapshots of Vedic learning, chanting, and student mentorship.',
+      image: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=700&q=85',
+      main: '/assets/gallery/vedic-practice-session/vedic-practice-session-main.jpg',
+      images: Array.from(
+        { length: 29 },
+        (_, index) => `/assets/gallery/vedic-practice-session/vedic-practice-session-${index + 1}.jpg`,
+      ),
+    },
+    {
+      title: 'Field reports',
+      note: 'Highlights from ongoing support to Pāṭaśhālas and seva work.',
+      image: 'https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=700&q=85',
+      main: '/assets/gallery/field-reports/field-reports-main.jpg',
+      images: ['/assets/gallery/field-reports/field-reports-1.jpg'],
+    },
   ],
 };
 
