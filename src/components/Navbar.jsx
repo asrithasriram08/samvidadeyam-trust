@@ -77,6 +77,7 @@ export default function Navbar() {
         to={item.to}
         className={({ isActive }) => 'navbar__link' + (isActive ? ' navbar__link--active' : '')}
         end={item.to === '/'}
+        onClick={() => mobile && setOpen(false)}
       >
         {item.label}
       </NavLink>
