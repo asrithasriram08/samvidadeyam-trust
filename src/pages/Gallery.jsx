@@ -7,8 +7,9 @@ function galleryTargetId(title) {
 
 function CameraScene({ onSelect }) {
   const uploadedItems = [
-    gallery.items.find((item) => item.title === 'Photo archive'),
     gallery.items.find((item) => item.title === 'Vedic Practice Session'),
+    gallery.items.find((item) => item.title === 'Vedic chant events'),
+    gallery.items.find((item) => item.title === 'Photo archive'),
     gallery.items.find((item) => item.title === 'Field reports'),
   ].filter(Boolean)
 

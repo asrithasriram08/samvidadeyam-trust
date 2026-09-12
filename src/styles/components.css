@@ -425,10 +425,11 @@
   position: absolute;
   bottom: 0;
   left: 50%;
-  width: 115px;
+  width: 125px;
   border-radius: 6px 6px 0 0;
   overflow: hidden;
   transform-origin: bottom center;
+  transform: translateX(-50%) rotate(var(--fan-angle));
   cursor: pointer;
   box-shadow: 2px -4px 24px rgba(16, 22, 43, 0.22);
   transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease);
@@ -443,22 +444,17 @@
   font-family: var(--font-display);
   font-size: 0.82rem;
 }
-.photo-strip:nth-child(1) { transform: translateX(-125px) rotate(-8deg); z-index: 1; }
-.photo-strip:nth-child(2) { transform: translateX(-50%) rotate(0deg); z-index: 2; }
-.photo-strip:nth-child(3) { transform: translateX(10px) rotate(8deg); z-index: 3; }
-.photo-strip:nth-child(4) { transform: translateX(135px) rotate(16deg); z-index: 2; }
-.photo-strip:nth-child(1):hover { transform: translate(-125px, -28px) rotate(-8deg); }
-.photo-strip:nth-child(2):hover { transform: translate(-50%, -28px) rotate(0deg); }
-.photo-strip:nth-child(3):hover { transform: translate(10px, -28px) rotate(8deg); }
-.photo-strip:nth-child(4):hover { transform: translate(135px, -28px) rotate(16deg); }
-.photo-strip:nth-child(5):hover { transform: translate(110px, -28px) rotate(17deg); }
-.photo-strip:nth-child(6):hover { transform: translate(180px, -28px) rotate(32deg); }
+.photo-strip:nth-child(1) { --fan-angle: -30deg; z-index: 4; }
+.photo-strip:nth-child(2) { --fan-angle: -10deg; z-index: 3; }
+.photo-strip:nth-child(3) { --fan-angle: 10deg; z-index: 2; }
+.photo-strip:nth-child(4) { --fan-angle: 30deg; z-index: 1; }
+.photo-strip:hover { transform: translate(-50%, -28px) rotate(var(--fan-angle)); }
 .camera-body {
   position: absolute;
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: 260px;
+  width: 320px;
   z-index: 10;
 }
 .camera-body svg { width: 100%; height: auto; display: block; }
@@ -643,7 +639,12 @@
   .gallery-grid { grid-template-columns: 1fr; }
   .gallery-photo-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .gallery-modal { padding: 1rem; }
-  .gallery-modal__content { padding: 1.25rem; }
+  .gallery-modal__content {
+    width: min(100%, 360px);
+    max-height: 78dvh;
+    padding: 1.25rem;
+    border-radius: var(--radius-lg);
+  }
   .camera-scene { width: 100%; height: 370px; transform: scale(0.72); transform-origin: top center; margin-bottom: -90px; }
 }
 

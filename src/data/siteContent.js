@@ -252,7 +252,7 @@ export const media = {
 export const gallery = {
   eyebrow: 'Gallery',
   title: 'See the living Tradition',
-  body: 'A visual record of places, people, and moments that carry Vedic knowledge forward.',
+  body: '',
   items: [
     {
       title: 'Photo archive',
@@ -268,7 +268,7 @@ export const gallery = {
       title: 'Vedic Practice Session',
       note: 'Snapshots of Vedic learning, chanting, and student mentorship.',
       image: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=700&q=85',
-      main: '/assets/gallery/vedic-practice-session/vedic-practice-session-main.jpg',
+      main: '/assets/gallery/vedic-practice-session/vedic-practice-session-main2.jpg',
       images: Array.from(
         { length: 29 },
         (_, index) => `/assets/gallery/vedic-practice-session/vedic-practice-session-${index + 1}.jpg`,
@@ -288,7 +288,7 @@ export const gallery = {
       title: 'Vedic chant events',
       note: 'Gatherings that bring Vedic chanting into community life.',
       image: 'https://images.unsplash.com/photo-1507838153414-b4b713384a76?auto=format&fit=crop&w=700&q=85',
-      main: '/assets/gallery/vedic-chant-events/vedic-chant-events-1.jpg',
+      main: '/assets/gallery/vedic-chant-events/vedic-chant-events-main.jpg',
       images: Array.from(
         { length: 4 },
         (_, index) => `/assets/gallery/vedic-chant-events/vedic-chant-events-${index + 1}.jpg`,
