@@ -23,12 +23,13 @@ function CameraScene({ onSelect }) {
       return
     }
 
-    const fanBounds = event.currentTarget.getBoundingClientRect()
-    const scale = fanBounds.width / event.currentTarget.offsetWidth
+    const fan = event.currentTarget.querySelector('.photo-fan')
+    const fanBounds = fan.getBoundingClientRect()
+    const scale = fanBounds.width / fan.offsetWidth
     const pointX = (event.clientX - fanBounds.left) / scale
     const pointY = (event.clientY - fanBounds.top) / scale
-    const centerX = event.currentTarget.offsetWidth / 2
-    const bottomY = event.currentTarget.offsetHeight
+    const centerX = fan.offsetWidth / 2
+    const bottomY = fan.offsetHeight
     const angles = [-30, -10, 10, 30]
     const itemIndex = angles.findIndex((angle) => {
       const radians = (angle * Math.PI) / 180
@@ -40,14 +41,14 @@ function CameraScene({ onSelect }) {
     })
     const fallbackIndex = Math.max(
       0,
-      Math.min(uploadedItems.length - 1, Math.floor((pointX / event.currentTarget.offsetWidth) * uploadedItems.length)),
+      Math.min(uploadedItems.length - 1, Math.floor((pointX / fan.offsetWidth) * uploadedItems.length)),
     )
     onSelect(uploadedItems[itemIndex === -1 ? fallbackIndex : itemIndex].title)
   }
 
   return (
-    <div className="camera-scene">
-      <div className="photo-fan" onClick={handleFanClick}>
+    <div className="camera-scene" onClick={handleFanClick}>
+      <div className="photo-fan">
         {uploadedItems.map((item) => (
           <a
             href={`#${galleryTargetId(item.title)}`}
@@ -90,6 +91,20 @@ function CameraScene({ onSelect }) {
           <ellipse cx="232" cy="128" rx="12" ry="8" fill="var(--gold-soft)" transform="rotate(20 232 128)" />
           <path d="M30 146 Q40 140 54 143 Q68 140 78 146M182 146 Q196 140 210 143 Q224 140 234 146" stroke="var(--gold)" strokeOpacity=".4" strokeWidth="1.5" />
         </svg>
+      </div>
+      <div className="photo-hit-layer" aria-hidden="true">
+        {uploadedItems.map((item) => (
+          <button
+            className="photo-hit-strip"
+            type="button"
+            key={item.title}
+            aria-label={`Open ${item.title}`}
+            onClick={(event) => {
+              event.stopPropagation()
+              onSelect(item.title)
+            }}
+          />
+        ))}
       </div>
     </div>
   )
