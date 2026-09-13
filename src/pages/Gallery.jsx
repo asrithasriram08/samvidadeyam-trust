@@ -18,7 +18,7 @@ function CameraScene({ onSelect }) {
 
     event.preventDefault()
     const strip = event.target.closest('.photo-strip')
-    if (event.detail === 0 && strip) {
+    if (strip) {
       onSelect(strip.dataset.title)
       return
     }
