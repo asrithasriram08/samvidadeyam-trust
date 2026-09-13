@@ -648,6 +648,7 @@
     border-radius: var(--radius-lg);
   }
   .camera-scene { width: 100%; height: 370px; transform: scale(0.72); transform-origin: top center; margin-bottom: -90px; }
+  .photo-fan { z-index: 11; }
   .photo-strip { pointer-events: none; }
 }
 
