@@ -648,13 +648,13 @@
     border-radius: var(--radius-lg);
   }
   .camera-scene { width: 100%; height: 370px; margin-bottom: -90px; }
-  .photo-fan { bottom: 105px; height: 265px; }
-  .photo-strip { width: 82px; }
+  .photo-fan { bottom: 105px; height: 265px; z-index: 11; }
+  .photo-strip { width: 23%; }
   .photo-strip img { height: 205px; }
-  .photo-strip:nth-child(1) { left: 13%; transform: translateX(-50%) rotate(-18deg); }
-  .photo-strip:nth-child(2) { left: 38%; transform: translateX(-50%) rotate(-6deg); }
-  .photo-strip:nth-child(3) { left: 62%; transform: translateX(-50%) rotate(6deg); }
-  .photo-strip:nth-child(4) { left: 87%; transform: translateX(-50%) rotate(18deg); }
+  .photo-strip:nth-child(1) { left: 12.5%; transform: translateX(-50%) rotate(-12deg); }
+  .photo-strip:nth-child(2) { left: 37.5%; transform: translateX(-50%) rotate(-4deg); }
+  .photo-strip:nth-child(3) { left: 62.5%; transform: translateX(-50%) rotate(4deg); }
+  .photo-strip:nth-child(4) { left: 87.5%; transform: translateX(-50%) rotate(12deg); }
 }
 
 /* Mission pillar card */
