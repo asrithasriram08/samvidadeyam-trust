@@ -460,7 +460,6 @@
   pointer-events: none;
 }
 .camera-body svg { width: 100%; height: auto; display: block; }
-    pointer-events: none;
 .gallery-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
