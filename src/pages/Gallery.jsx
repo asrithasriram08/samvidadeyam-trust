@@ -17,33 +17,13 @@ function CameraScene({ onSelect }) {
     if (!window.matchMedia('(max-width: 620px)').matches) return
 
     event.preventDefault()
-    const strip = event.target.closest('.photo-strip')
-    if (strip) {
-      onSelect(strip.dataset.title)
-      return
-    }
-
-    const fan = event.currentTarget.querySelector('.photo-fan')
-    const fanBounds = fan.getBoundingClientRect()
-    const scale = fanBounds.width / fan.offsetWidth
-    const pointX = (event.clientX - fanBounds.left) / scale
-    const pointY = (event.clientY - fanBounds.top) / scale
-    const centerX = fan.offsetWidth / 2
-    const bottomY = fan.offsetHeight
-    const angles = [-30, -10, 10, 30]
-    const itemIndex = angles.findIndex((angle) => {
-      const radians = (angle * Math.PI) / 180
-      const deltaX = pointX - centerX
-      const deltaY = pointY - bottomY
-      const localX = deltaX * Math.cos(radians) + deltaY * Math.sin(radians)
-      const localY = -deltaX * Math.sin(radians) + deltaY * Math.cos(radians)
-      return Math.abs(localX) <= 62.5 && localY <= 0 && localY >= -330
+    const strips = [...event.currentTarget.querySelectorAll('.photo-strip')]
+    const strip = strips.find((candidate) => {
+      const bounds = candidate.getBoundingClientRect()
+      return event.clientX >= bounds.left && event.clientX <= bounds.right &&
+        event.clientY >= bounds.top && event.clientY <= bounds.bottom
     })
-    const fallbackIndex = Math.max(
-      0,
-      Math.min(uploadedItems.length - 1, Math.floor((pointX / fan.offsetWidth) * uploadedItems.length)),
-    )
-    onSelect(uploadedItems[itemIndex === -1 ? fallbackIndex : itemIndex].title)
+    if (strip) onSelect(strip.dataset.title)
   }
 
   return (
@@ -55,16 +35,9 @@ function CameraScene({ onSelect }) {
             className="photo-strip"
             key={item.title}
             data-title={item.title}
-            onPointerUp={(event) => {
-              if (event.pointerType !== 'touch') return
-              event.preventDefault()
-              event.stopPropagation()
-              onSelect(item.title)
-            }}
             onClick={(event) => {
               event.preventDefault()
-              event.stopPropagation()
-              onSelect(item.title)
+              if (!window.matchMedia('(max-width: 620px)').matches) onSelect(item.title)
             }}
           >
             <img src={item.main || item.images[0]} alt={item.title} />
