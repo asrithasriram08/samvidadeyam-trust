@@ -74,7 +74,8 @@ export default function Gallery() {
 
     target.scrollIntoView({ behavior: 'smooth', block: 'center' })
     setHighlightedGalleryTitle(title)
-    window.setTimeout(() => setHighlightedGalleryTitle(null), 1800)
+    const highlightDuration = title === 'Vedic chant events' ? 3000 : 1800
+    window.setTimeout(() => setHighlightedGalleryTitle(null), highlightDuration)
   }
 
   useEffect(() => {
