@@ -55,9 +55,16 @@ function CameraScene({ onSelect }) {
             className="photo-strip"
             key={item.title}
             data-title={item.title}
+            onPointerUp={(event) => {
+              if (event.pointerType !== 'touch') return
+              event.preventDefault()
+              event.stopPropagation()
+              onSelect(item.title)
+            }}
             onClick={(event) => {
               event.preventDefault()
-              if (!window.matchMedia('(max-width: 620px)').matches) onSelect(item.title)
+              event.stopPropagation()
+              onSelect(item.title)
             }}
           >
             <img src={item.main || item.images[0]} alt={item.title} />

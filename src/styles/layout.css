@@ -100,6 +100,7 @@
   width: 420px; height: 420px;
   border-radius: 50%;
   background: radial-gradient(circle, rgba(159,192,227,0.14), transparent 70%);
+  pointer-events: none;
 }
 .page-hero h1 { color: var(--text-on-dark); margin-bottom: 1rem; position: relative; }
 .page-hero p { color: var(--text-on-dark-soft); font-size: var(--step-body-lg); max-width: 60ch; position: relative; line-height: 1.65; }
