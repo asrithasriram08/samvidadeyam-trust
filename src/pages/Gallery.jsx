@@ -13,17 +13,34 @@ function CameraScene({ onSelect }) {
     gallery.items.find((item) => item.title === 'Field reports'),
   ].filter(Boolean)
 
+  const handleFanClick = (event) => {
+    if (!window.matchMedia('(max-width: 620px)').matches) return
+
+    event.preventDefault()
+    const strip = event.target.closest('.photo-strip')
+    if (event.detail === 0 && strip) {
+      onSelect(strip.dataset.title)
+      return
+    }
+
+    const fanBounds = event.currentTarget.getBoundingClientRect()
+    const position = Math.max(0, Math.min(0.999, (event.clientX - fanBounds.left) / fanBounds.width))
+    const itemIndex = Math.floor(position * uploadedItems.length)
+    onSelect(uploadedItems[itemIndex].title)
+  }
+
   return (
     <div className="camera-scene">
-      <div className="photo-fan">
+      <div className="photo-fan" onClick={handleFanClick}>
         {uploadedItems.map((item) => (
           <a
             href={`#${galleryTargetId(item.title)}`}
             className="photo-strip"
             key={item.title}
+            data-title={item.title}
             onClick={(event) => {
               event.preventDefault()
-              onSelect(item.title)
+              if (!window.matchMedia('(max-width: 620px)').matches) onSelect(item.title)
             }}
           >
             <img src={item.main || item.images[0]} alt={item.title} />
