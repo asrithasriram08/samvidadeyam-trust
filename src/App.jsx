@@ -8,12 +8,14 @@ import About from './pages/About.jsx'
 import Activities from './pages/Activities.jsx'
 import Events from './pages/Events.jsx'
 import Gallery from './pages/Gallery.jsx'
+import News from './pages/News.jsx'
 import Socials from './pages/Socials.jsx'
 import Trustees from './pages/Trustees.jsx'
 import FoundingMembers from './pages/FoundingMembers.jsx'
 import Youtube from './pages/Youtube.jsx'
 import Contribute from './pages/Contribute.jsx'
 import Contact from './pages/Contact.jsx'
+import Admin from './pages/Admin.jsx'
 
 function ScrollToTop() {
   const { pathname } = useLocation()
@@ -24,17 +26,22 @@ function ScrollToTop() {
 }
 
 export default function App() {
+  const isAdminRoute = window.location.pathname.startsWith('/admin')
+
   return (
     <>
-      <a href="#main-content" className="skip-link">Skip to content</a>
-      <Ticker />
-      <Navbar />
-      <ScrollToTop />
-      <main id="main-content">
+      {!isAdminRoute && <>
+        <a href="#main-content" className="skip-link">Skip to content</a>
+        <Ticker />
+        <Navbar />
+        <ScrollToTop />
+      </>}
+      <main id="main-content" className={isAdminRoute ? 'admin-main' : ''}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/activities" element={<Activities />} />
+          <Route path="/news" element={<News />} />
           <Route path="/events" element={<Events />} />
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/socials" element={<Socials />} />
@@ -43,9 +50,10 @@ export default function App() {
           <Route path="/youtube" element={<Youtube />} />
           <Route path="/contribute" element={<Contribute />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/admin" element={<Admin />} />
         </Routes>
       </main>
-      <Footer />
+      {!isAdminRoute && <Footer />}
     </>
   )
 }
