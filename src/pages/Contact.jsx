@@ -17,15 +17,69 @@ function PhoneIcon() {
   )
 }
 
+function CopyButton({ value, label }) {
+  const [copied, setCopied] = useState(false)
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(value)
+    } catch (e) {
+      // Clipboard API can fail without a secure context / permission.
+    }
+    setCopied(true)
+    setTimeout(() => setCopied(false), 1800)
+  }
+
+  return (
+    <button type="button" className={`copy-btn copy-btn--contact${copied ? ' copy-btn--done' : ''}`} onClick={handleCopy}>
+      {copied ? 'Copied ✓' : `Copy ${label}`}
+    </button>
+  )
+}
+
 export default function Contact() {
   const [submitted, setSubmitted] = useState(false)
+  const [errors, setErrors] = useState({})
+  const [sending, setSending] = useState(false)
+  const [serverError, setServerError] = useState('')
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    // Placeholder only — wire this up to the Trust's actual email service
-    // or form backend before publishing. See README, "Connecting the
-    // contact form".
-    setSubmitted(true)
+    const form = e.currentTarget
+    const formData = new FormData(form)
+    const values = Object.fromEntries(formData.entries())
+    const nextErrors = {}
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) {
+      nextErrors.email = 'Invalid email.'
+    }
+    if (!values.subject.trim()) {
+      nextErrors.subject = 'Subject is empty.'
+    }
+    setErrors(nextErrors)
+    setServerError('')
+    if (Object.keys(nextErrors).length > 0) return
+
+    setSending(true)
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(values),
+      })
+      const result = await response.json()
+      if (!response.ok) {
+        if (result.field) setErrors({ [result.field]: result.message })
+        else setServerError(result.message || 'Unable to send the message right now.')
+        return
+      }
+      form.reset()
+      setSubmitted(true)
+    } catch (error) {
+      setServerError('Unable to send the message right now.')
+    } finally {
+      setSending(false)
+    }
   }
 
   return (
@@ -46,7 +100,10 @@ export default function Contact() {
               <div>
                 <h4>Email</h4>
                 {contact.email ? (
-                  <p><a href={`mailto:${contact.email}`}>{contact.email}</a></p>
+                  <div className="contact-detail__value">
+                    <p><a href={`mailto:${contact.email}`}>{contact.email}</a></p>
+                    <CopyButton value={contact.email} label="Email" />
+                  </div>
                 ) : (
                   <p className="contact-detail__pending">To be added — see src/data/siteContent.js</p>
                 )}
@@ -57,7 +114,10 @@ export default function Contact() {
               <div>
                 <h4>Mobile</h4>
                 {contact.mobile ? (
-                  <p><a href={`tel:${contact.mobile}`}>{contact.mobile}</a></p>
+                  <div className="contact-detail__value">
+                    <p><a href={`tel:${contact.mobile}`}>{contact.mobile}</a></p>
+                    <CopyButton value={contact.mobile} label="Mobile" />
+                  </div>
                 ) : (
                   <p className="contact-detail__pending">To be added — see src/data/siteContent.js</p>
                 )}
@@ -68,35 +128,38 @@ export default function Contact() {
           <div className="card">
             {submitted ? (
               <div role="status">
-                <h3 style={{ marginBottom: '0.75rem' }}>Message ready</h3>
+                <h3 style={{ marginBottom: '0.75rem' }}>Message sent</h3>
                 <p style={{ color: 'var(--text-soft)', lineHeight: 1.6 }}>
-                  This form isn't yet wired to a live backend, so nothing was actually sent. Once the
-                  Trust connects an email service (see README), messages submitted here will reach the
-                  Trust directly.
+                  Your message has been sent to the Trust.
                 </p>
                 <button className="btn btn--outline btn--sm" style={{ marginTop: '1.25rem' }} onClick={() => setSubmitted(false)}>
                   Send another
                 </button>
               </div>
             ) : (
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={handleSubmit} noValidate>
                 <div className="form-field">
                   <label htmlFor="name">Name</label>
                   <input id="name" name="name" type="text" required autoComplete="name" />
                 </div>
                 <div className="form-field">
                   <label htmlFor="email">Email</label>
-                  <input id="email" name="email" type="email" required autoComplete="email" />
+                  <input id="email" name="email" type="email" required autoComplete="email" aria-invalid={Boolean(errors.email)} aria-describedby={errors.email ? 'email-error' : undefined} />
+                  {errors.email && <p id="email-error" className="form-error">{errors.email}</p>}
                 </div>
                 <div className="form-field">
                   <label htmlFor="subject">Subject</label>
-                  <input id="subject" name="subject" type="text" />
+                  <input id="subject" name="subject" type="text" aria-invalid={Boolean(errors.subject)} aria-describedby={errors.subject ? 'subject-error' : undefined} />
+                  {errors.subject && <p id="subject-error" className="form-error">{errors.subject}</p>}
                 </div>
                 <div className="form-field">
                   <label htmlFor="message">Message</label>
                   <textarea id="message" name="message" rows="5" required />
                 </div>
-                <button type="submit" className="btn btn--primary btn--block">Send Message (CANT SEND YET)</button>
+                {serverError && <p className="form-error form-error--summary" role="alert">{serverError}</p>}
+                <button type="submit" className="btn btn--primary btn--block" disabled={sending}>
+                  {sending ? 'Sending...' : 'Send Message'}
+                </button>
               </form>
             )}
           </div>

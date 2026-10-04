@@ -19,11 +19,13 @@ export const nav = [
   },
   { label: 'Activities', to: '/activities' },
   { label: 'Events', to: '/events' },
-  { label: 'Gallery', to: '/gallery' },
   {
-    label: 'Socials',
-    to: '/socials',
-    children: [{ label: 'YouTube', to: '/youtube' }],
+    label: 'Media',
+    to: '/gallery',
+    children: [
+      { label: 'Gallery', to: '/gallery' },
+      { label: 'Socials', to: '/socials' },
+    ],
   },
   { label: 'Contact', to: '/contact' },
 ];
@@ -301,8 +303,8 @@ export const contact = {
   eyebrow: 'Contact',
   title: 'Connect with us',
   intro: 'For questions about the Trust, our Pāṭaśhāla partners, volunteering, or partnership, reach out — or send a message below.',
-  email: null,
-  mobile: null,
+  email: 'samvidadeyamtrust@gmail.com',
+  mobile: '+91 1234567890',
 };
 
 export const lineage = {

@@ -924,6 +924,16 @@
 }
 .copy-btn:hover { background: rgba(159,192,227,0.24); }
 .copy-btn--done { color: #8FD9A8; border-color: rgba(143,217,168,0.4); }
+.copy-btn--contact {
+  background: var(--sky-soft);
+  border-color: var(--sky);
+  color: var(--indigo);
+}
+.copy-btn--contact:hover { background: var(--sky); }
+.copy-btn--contact.copy-btn--done {
+  color: #27734b;
+  border-color: #8fd9a8;
+}
 
 /* Accordion */
 .accordion-item {
@@ -1137,6 +1147,13 @@
   border-color: var(--indigo-2);
   outline: none;
 }
+.form-error {
+  margin: -0.15rem 0 0;
+  color: #c62828;
+  font-size: 0.85rem;
+}
+.form-error--summary { margin: 0 0 1rem; }
+.form-field input[aria-invalid="true"] { border-color: #c62828; }
 
 /* Marker row (need-based / transparent / impact) */
 .marker-row {

@@ -290,12 +290,12 @@
 .contact-detail {
   display: flex;
   align-items: flex-start;
-  gap: 1rem;
-  padding: 1.25rem 0;
+  gap: 1.25rem;
+  padding: 1.6rem 0;
   border-bottom: 1px solid var(--line);
 }
 .contact-detail__icon {
-  width: 40px; height: 40px;
+  width: 56px; height: 56px;
   border-radius: 50%;
   background: var(--sky-soft);
   color: var(--indigo);
@@ -304,8 +304,14 @@
   justify-content: center;
   flex-shrink: 0;
 }
-.contact-detail h4 { font-size: 0.95rem; margin-bottom: 0.3rem; }
-.contact-detail p { color: var(--text-soft); font-size: 0.95rem; }
+.contact-detail h4 { font-size: clamp(1.1rem, 1.5vw, 1.3rem); margin-bottom: 0.4rem; }
+.contact-detail p { color: var(--text-soft); font-size: clamp(1.05rem, 1.5vw, 1.25rem); }
+.contact-detail__value {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
 .contact-detail__pending {
   font-style: italic;
   color: var(--text-faint);

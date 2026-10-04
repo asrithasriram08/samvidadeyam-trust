@@ -3,6 +3,7 @@ import express from 'express'
 import session from 'express-session'
 import cors from 'cors'
 import multer from 'multer'
+import nodemailer from 'nodemailer'
 import fs from 'node:fs'
 import path from 'node:path'
 import crypto from 'node:crypto'
@@ -15,6 +16,7 @@ const PORT = Number(process.env.PORT || 3000)
 const isProduction = process.env.NODE_ENV === 'production'
 const SESSION_SECRET = process.env.SESSION_SECRET || (isProduction ? null : 'dev-session-secret-change-me')
 const hasCloudinaryConfig = Boolean(process.env.CLOUDINARY_CLOUD_NAME && process.env.CLOUDINARY_API_KEY && process.env.CLOUDINARY_API_SECRET)
+const contactRecipient = process.env.CONTACT_RECIPIENT || 'samvidadeyamtrust@gmail.com'
 
 if (isProduction && !SESSION_SECRET) {
   throw new Error('SESSION_SECRET must be set in production.')
@@ -120,6 +122,53 @@ app.get('/api/content', (_req, res) => {
     res.json(getPublicContent())
   } catch (error) {
     res.status(500).json({ success: false, message: 'Unable to load public content.' })
+  }
+})
+
+app.post('/api/contact', requireBodyData, async (req, res) => {
+  const name = sanitizeText(req.body.name || '', 120)
+  const email = sanitizeText(req.body.email || '', 254)
+  const subject = sanitizeText(req.body.subject || '', 200)
+  const message = sanitizeText(req.body.message || '', 5000)
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+  if (!emailPattern.test(email)) {
+    return res.status(400).json({ success: false, field: 'email', message: 'Invalid email.' })
+  }
+  if (!subject) {
+    return res.status(400).json({ success: false, field: 'subject', message: 'Subject is empty.' })
+  }
+  if (!name || !message) {
+    return res.status(400).json({ success: false, message: 'Name and message are required.' })
+  }
+
+  if (!process.env.SMTP_HOST || !process.env.SMTP_USER || !process.env.SMTP_PASSWORD) {
+    return res.status(503).json({ success: false, message: 'Email service is not configured yet.' })
+  }
+
+  try {
+    const transporter = nodemailer.createTransport({
+      host: process.env.SMTP_HOST,
+      port: Number(process.env.SMTP_PORT || 587),
+      secure: process.env.SMTP_SECURE === 'true',
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASSWORD,
+      },
+    })
+
+    await transporter.sendMail({
+      from: process.env.SMTP_FROM || process.env.SMTP_USER,
+      to: contactRecipient,
+      replyTo: email,
+      subject,
+      text: `Name: ${name}\nEmail: ${email}\n\n${message}`,
+    })
+
+    return res.json({ success: true })
+  } catch (error) {
+    console.error('Contact email failed:', error)
+    return res.status(500).json({ success: false, message: 'Unable to send the message right now.' })
   }
 })
 

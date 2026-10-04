@@ -76,18 +76,17 @@ Open it, find the section you want (each export matches a section of the site â€
 `donation`, `contact`, etc.), edit the strings, and save. The dev server updates
 instantly.
 
-### Adding the Trust's email and mobile number
+### Adding the Trust's mobile number
 
-The source PPT and public website both list "Email" and "Mobile" as fields under
-**Connect with us**, but neither supplies the actual values. Rather than invent them,
-this build leaves them blank with a visible placeholder. To add them:
+The source PPT and public website list "Email" and "Mobile" as fields under
+**Connect with us**. The Trust's email is configured; to add the mobile number:
 
 Open `src/data/siteContent.js`, find the `contact` export, and fill in:
 
 ```js
 export const contact = {
   ...
-  email: 'trust@example.org',   // <-- add the real address
+  email: 'samvidadeyamtrust@gmail.com',
   mobile: '+91 90000 00000',    // <-- add the real number
   ...
 };
@@ -159,16 +158,15 @@ To add a new page: create a new file in `src/pages/`, add a `<Route>` for it in
 
 ## 7. Connecting the contact form
 
-`src/pages/Contact.jsx` currently renders a working **UI-only** form: submitting it
-shows a "not yet connected" confirmation instead of sending anything, per the brief's
-instruction not to fake a submission system. To make it functional, pick one:
+The Contact form submits to the Express `/api/contact` endpoint and sends messages
+through SMTP to `samvidadeyamtrust@gmail.com`. Copy `.env.example` to `.env` and fill
+in `SMTP_USER` and `SMTP_PASSWORD` (for Gmail, use an app password), along with the
+SMTP settings shown there. `CONTACT_RECIPIENT` can be changed if the destination
+address changes.
 
-- **Form service** (Formspree, Getform, Basin, etc.): point the form's `onSubmit` at
-  the service's endpoint per their docs, or replace the `<form>` with their embed.
-- **Your own backend / serverless function:** replace the `handleSubmit` function in
-  `Contact.jsx` with a `fetch()` call to your endpoint.
-- **mailto fallback:** simplest option â€” change the submit button to a `mailto:` link
-  once the Trust's email address is added to `siteContent.js`.
+The form validates the visitor email and requires a subject before sending. The
+visitor's address is used as `Reply-To`, while the configured SMTP account remains
+the sender.
 
 ---
 
