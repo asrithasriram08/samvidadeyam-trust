@@ -3,10 +3,8 @@ import { NavLink } from 'react-router-dom'
 import SectionHeader from '../components/SectionHeader.jsx'
 import ScrollReveal from '../components/ScrollReveal.jsx'
 import LineageThread from '../components/LineageThread.jsx'
-import WordCycle from '../components/WordCycle.jsx'
 import MissionCard from '../components/MissionCard.jsx'
 import ActivityCard from '../components/ActivityCard.jsx'
-import BrandMark from '../components/BrandMark.jsx'
 import { AccordionItem } from '../components/Accordion.jsx'
 import { hero, coreBelief, essence, vision, mission, vedicChanting, activities, inAction, whyItMatters, media } from '../data/siteContent.js'
 
@@ -20,17 +18,26 @@ export default function Home() {
             <span className="eyebrow hero__eyebrow">{hero.eyebrow}</span>
             <h1 className="hero__headline">{hero.headline}</h1>
             <p className="hero__subhead">{hero.subhead}</p>
-            <p className="hero__body">{hero.body}</p>
-            <div className="hero__actions">
-              <NavLink to={hero.ctaPrimary.to} className="btn btn--primary">{hero.ctaPrimary.label}</NavLink>
-              <NavLink to={hero.ctaSecondary.to} className="btn btn--outline">{hero.ctaSecondary.label}</NavLink>
+            <div className="hero__body">
+              {hero.body.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
             </div>
-            <WordCycle wordsA={hero.wordCycleA} wordsB={hero.wordCycleB} />
           </div>
 
           <div className="hero__visual">
             <LineageThread variant="hero" className="hero__thread" />
-            <BrandMark size="lg" className="hero__mark" alt="Samvidadeyam Trust emblem" />
+            <div className="hero__journey">
+              <h2>{hero.journey.title}</h2>
+              <p>{hero.journey.intro}</p>
+              <ul>
+                {hero.journey.initiatives.map((initiative) => <li key={initiative}>{initiative}</li>)}
+              </ul>
+              <p>{hero.journey.closing}</p>
+            </div>
+          </div>
+
+          <div className="hero__actions">
+            <NavLink to={hero.ctaPrimary.to} className="btn btn--primary">{hero.ctaPrimary.label}</NavLink>
+            <NavLink to={hero.ctaSecondary.to} className="btn btn--outline">{hero.ctaSecondary.label}</NavLink>
           </div>
         </div>
       </section>

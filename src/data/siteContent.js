@@ -38,10 +38,25 @@ export const hero = {
   eyebrow: 'Samvidadeyam Trust',
   headline: 'Give with Understanding',
   subhead: 'A Vedic Path to Conscious Giving',
-  body:
-    'Samvidadeyam draws its inspiration from the sacred wisdom of the Taittirīya Upaniṣad, where giving is not seen as a mere act of charity, but as a dharma performed with awareness, humility, and understanding.',
-  ctaPrimary: { label: 'Explore Our Work', to: '/about' },
+  body: [
+    'A collective of 20 senior corporate leaders and accomplished professionals from Bangalore, Karnataka—who, alongside their professional lives, practice and value the Vedic tradition—have come together with a shared commitment to serve, support and preserve the Vedas.',
+    'Through Samvidadeyam, they dedicate themselves to supporting Vedic students and Vedic Gurus, especially those in need, and to ensuring that this timeless heritage continues to flourish and reach future generations. Their commitment is a lifelong journey of seva towards upholding and preserving our Vedic traditions.',
+  ],
+  ctaPrimary: { label: 'Explore Our Work', to: '/activities' },
   ctaSecondary: { label: 'Contribute', to: '/contribute' },
+  journey: {
+    title: 'Our Journey of Seva',
+    intro: 'Since its inception, Samvida Deyam has been committed to supporting and preserving our Vedic heritage through meaningful seva. Our initiatives include:',
+    initiatives: [
+      'Educational & Vaidika Programmes',
+      'Support for Vedic Studies',
+      'Spiritual Discourse Programmes',
+      'Vedic Ritual Programmes',
+      'Educational Scholarships',
+      'Support for Charitable & Spiritual Causes',
+    ],
+    closing: 'Through these efforts, the Trust seeks to support Vedic students, Vedic Gurus and Vaidika communities in need, while helping preserve and carry forward our Vedic traditions for future generations.',
+  },
   wordCycleA: ['GIVE', 'WITH', 'UNDERSTANDING'],
   wordCycleB: ['KNOWLEDGE', 'SEVA', 'DHARMA'],
 };
@@ -153,6 +168,14 @@ export const activities = {
       body: 'Conducting Vedic events for the community.',
       filled: true,
       link: { label: 'Events', to: '/events' },
+    },
+    {
+      id: 'vaideeka-community-support',
+      number: '05',
+      category: 'community',
+      title: 'Vaideeka Community Support',
+      body: 'Dedicated to supporting Vaideeka communities in need, who uphold and preserve our Vedic heritage and traditions.',
+      filled: true,
     },
   ],
 };

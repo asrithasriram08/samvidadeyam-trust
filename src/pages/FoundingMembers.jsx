@@ -20,7 +20,7 @@ const foundingMembers = [
   'Sreevatsadhara Sharma',
   'Sridhar Subramanian',
   'Sriram Agoram',
-  'Venkat Hari',
+  'Venkatraman E.',
 ]
 
 export default function FoundingMembers() {

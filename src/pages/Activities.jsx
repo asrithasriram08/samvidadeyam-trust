@@ -16,7 +16,7 @@ export default function Activities() {
           <span className="eyebrow">Activities</span>
           <h1 style={{ marginTop: '0.85rem' }}>Mission, focus areas &amp; approach</h1>
           <p>
-            Our commitments guide everything Samvidadeyam does — and four focus areas put those
+            Our commitments guide everything Samvidadeyam does — and five focus areas put those
             commitments into practice.
           </p>
         </div>

@@ -19,34 +19,34 @@ export default function Trustees() {
         <div className="container">
           <div className="grid grid--3">
             <article className="card card--plain">
-              <img className="trustee-card__image" src="/assets/trustees/ramakrishnan-image.jpg" alt="N. Ramakrishnan" />
-              <h3>N. Ramakrishnan</h3>
-              <span className="eyebrow">Samvi Role</span>
-              <p className="trustee-card__bio">Chartered Accountant &amp; Company Secretary with four decades of Corporate experience as CFO/Controller of reputed companies.</p>
-            </article>
-            <article className="card card--plain">
               <img className="trustee-card__image" src={trusteeImage} alt="Ramanathan" />
               <h3>Ramanathan</h3>
-              <span className="eyebrow">Samvi Role</span>
+              <span className="eyebrow">President</span>
               <p className="trustee-card__bio">bbb</p>
             </article>
             <article className="card card--plain">
-              <img className="trustee-card__image" src={trusteeImage} alt="Sriram Agoram" />
+              <img className="trustee-card__image" src="/assets/trustees/sriram-image.jpg" alt="Sriram Agoram" />
               <h3>Sriram Agoram</h3>
-              <span className="eyebrow">Samvi Role</span>
-              <p className="trustee-card__bio">ccc</p>
+              <span className="eyebrow">Secretary</span>
+              <p className="trustee-card__bio">Master&apos;s in Computer Applications with three decades of extensive experience in corporate technology, consulting and systems integration, and committed to preserving, practicing and propagating the Vedas.</p>
             </article>
             <article className="card card--plain">
-              <img className="trustee-card__image" src={trusteeImage} alt="Sreevatsadhara Sharma" />
-              <h3>Sreevatsadhara Sharma</h3>
-              <span className="eyebrow">Samvi Role</span>
-              <p className="trustee-card__bio">ddd</p>
+              <img className="trustee-card__image" src="/assets/trustees/ramakrishnan-image.jpg" alt="N. Ramakrishnan" />
+              <h3>N. Ramakrishnan</h3>
+              <span className="eyebrow">Treasurer</span>
+              <p className="trustee-card__bio">Chartered Accountant &amp; Company Secretary with four decades of Corporate experience as CFO/Controller of reputed companies.</p>
             </article>
             <article className="card card--plain">
-              <img className="trustee-card__image" src={trusteeImage} alt="Venkat Hari" />
-              <h3>Venkat Hari</h3>
-              <span className="eyebrow">Samvi Role</span>
-              <p className="trustee-card__bio">eee</p>
+              <img className="trustee-card__image" src="/assets/trustees/ga-sarma-image.jpg" alt="G.A. Sreevatsadhara Sarma" />
+              <h3>G.A. Sreevatsadhara Sarma</h3>
+              <span className="eyebrow">Executive Trustee</span>
+              <p className="trustee-card__bio">An engineer and MBA by education, and a keen student of vedas, puranas, upanishads, dharma sastras and literature.</p>
+            </article>
+            <article className="card card--plain">
+              <img className="trustee-card__image" src={trusteeImage} alt="Venkatraman E." />
+              <h3>Venkatraman E.</h3>
+              <span className="eyebrow">Executive Trustee</span>
+              <p className="trustee-card__bio">A Chartered Accountant with 2 decades of Corporate experience and a professional working in tax and corporate matters, with an interest in Indian culture and spirituality.</p>
             </article>
           </div>
         </div>

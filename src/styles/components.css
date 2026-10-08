@@ -145,6 +145,10 @@
   align-items: center;
   gap: 14px;
 }
+.navbar__actions .btn--sm {
+  padding: 11px 22px;
+  font-size: 0.9rem;
+}
 .navbar__hamburger {
   display: none;
   background: none;
@@ -331,7 +335,10 @@
   gap: 1rem;
   text-align: left;
 }
-.events-grid .card p { margin-bottom: 0; }
+.events-grid .card p {
+  margin-bottom: 0;
+  font-size: var(--step-body);
+}
 .events-gallery-card { text-align: left; }
 .events-gallery-card:target {
   border-color: var(--gold);
