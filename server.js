@@ -2,14 +2,18 @@ import 'dotenv/config'
 import express from 'express'
 import session from 'express-session'
 import cors from 'cors'
+import helmet from 'helmet'
+import rateLimit from 'express-rate-limit'
+import connectPgSimple from 'connect-pg-simple'
 import multer from 'multer'
 import nodemailer from 'nodemailer'
 import fs from 'node:fs'
 import path from 'node:path'
 import crypto from 'node:crypto'
 import { v2 as cloudinary } from 'cloudinary'
-import { ensureInitialAdmin, getAdminByUsername, getPublicContent, listNews, listEvents, listGallery, createNewsEntry, updateNewsEntry, deleteNewsEntry, createEventEntry, updateEventEntry, deleteEventEntry, createGalleryEntry, deleteGalleryEntry, uploadsDir } from './server/db.js'
+import { ensureDatabaseReady, ensureInitialAdmin, getAdminByUsername, getPublicContent, listNews, listEvents, listGallery, createNewsEntry, updateNewsEntry, deleteNewsEntry, createEventEntry, updateEventEntry, deleteEventEntry, createGalleryEntry, deleteGalleryEntry, uploadsDir, pool, usePostgres } from './server/db.js'
 import { sanitizeText, validateNewsInput, validateEventInput, validateGalleryInput, verifyPassword } from './server/auth.js'
+import { csrfProtection, csrfTokenEndpoint } from './server/security.js'
 
 const app = express()
 const PORT = Number(process.env.PORT || 3000)
@@ -17,9 +21,15 @@ const isProduction = process.env.NODE_ENV === 'production'
 const SESSION_SECRET = process.env.SESSION_SECRET || (isProduction ? null : 'dev-session-secret-change-me')
 const hasCloudinaryConfig = Boolean(process.env.CLOUDINARY_CLOUD_NAME && process.env.CLOUDINARY_API_KEY && process.env.CLOUDINARY_API_SECRET)
 const contactRecipient = process.env.CONTACT_RECIPIENT || 'samvidadeyamtrust@gmail.com'
+const allowedOrigins = new Set((process.env.ALLOWED_ORIGINS || 'http://localhost:5173,http://localhost:3000,https://samvidadeyam.in').split(',').map((origin) => origin.trim()).filter(Boolean))
+const PgSession = connectPgSimple(session)
 
 if (isProduction && !SESSION_SECRET) {
   throw new Error('SESSION_SECRET must be set in production.')
+}
+
+if (isProduction && !usePostgres) {
+  throw new Error('DATABASE_URL must be configured in production.')
 }
 
 if (hasCloudinaryConfig) {
@@ -30,23 +40,46 @@ if (hasCloudinaryConfig) {
   })
 }
 
-app.use(cors({ origin: true, credentials: true }))
+app.set('trust proxy', 1)
+app.use(helmet())
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.has(origin)) return callback(null, true)
+    return callback(new Error('Origin is not allowed.'))
+  },
+  credentials: true,
+}))
 app.use(express.json({ limit: '10mb' }))
 app.use(express.urlencoded({ extended: true }))
 
+const sessionOptions = {
+  secret: SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    httpOnly: true,
+    secure: isProduction,
+    sameSite: 'lax',
+    maxAge: 1000 * 60 * 60 * 8,
+  },
+}
+if (pool) {
+  sessionOptions.store = new PgSession({ pool, createTableIfMissing: true })
+}
+
 app.use(
-  session({
-    secret: SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      httpOnly: true,
-      secure: isProduction,
-      sameSite: 'lax',
-      maxAge: 1000 * 60 * 60 * 8,
-    },
-  }),
+  session(sessionOptions),
 )
+app.get('/api/csrf-token', csrfTokenEndpoint)
+app.use(csrfProtection)
+
+const loginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 10,
+  standardHeaders: 'draft-8',
+  legacyHeaders: false,
+  message: { success: false, message: 'Too many login attempts. Please try again later.' },
+})
 
 const uploadDir = uploadsDir
 fs.mkdirSync(uploadDir, { recursive: true })
@@ -117,9 +150,9 @@ function requireBodyData(req, res, next) {
 app.use(express.static(path.join(process.cwd(), 'dist')))
 app.get('/api/health', (_req, res) => res.json({ ok: true, env: process.env.NODE_ENV || 'development' }))
 
-app.get('/api/content', (_req, res) => {
+app.get('/api/content', async (_req, res) => {
   try {
-    res.json(getPublicContent())
+    res.json(await getPublicContent())
   } catch (error) {
     res.status(500).json({ success: false, message: 'Unable to load public content.' })
   }
@@ -172,7 +205,7 @@ app.post('/api/contact', requireBodyData, async (req, res) => {
   }
 })
 
-app.post('/api/admin/login', (req, res) => {
+app.post('/api/admin/login', loginLimiter, async (req, res) => {
   const username = sanitizeText(req.body?.username || '', 80)
   const password = String(req.body?.password || '')
 
@@ -180,7 +213,7 @@ app.post('/api/admin/login', (req, res) => {
     return res.status(400).json({ success: false, message: 'Username and password are required.' })
   }
 
-  const admin = getAdminByUsername(username)
+  const admin = await getAdminByUsername(username)
   if (!admin || !verifyPassword(password, admin.password_hash)) {
     return res.status(401).json({ success: false, message: 'Invalid username or password.' })
   }
@@ -209,45 +242,45 @@ app.get('/api/admin/session', (req, res) => {
   return res.json({ success: true, admin: req.session.admin })
 })
 
-app.get('/api/admin/news', isAuthenticated, (_req, res) => {
+app.get('/api/admin/news', isAuthenticated, async (_req, res) => {
   try {
-    res.json({ success: true, items: listNews() })
+    res.json({ success: true, items: await listNews() })
   } catch (error) {
     res.status(500).json({ success: false, message: 'Unable to load news items.' })
   }
 })
 
-app.post('/api/admin/news', isAuthenticated, requireBodyData, (req, res) => {
+app.post('/api/admin/news', isAuthenticated, requireBodyData, async (req, res) => {
   const validation = validateNewsInput(req.body)
   if (!validation.ok) {
     return res.status(400).json({ success: false, message: validation.message })
   }
 
   try {
-    const item = createNewsEntry(validation.data)
+    const item = await createNewsEntry(validation.data)
     return res.status(201).json({ success: true, item })
   } catch (error) {
     return res.status(500).json({ success: false, message: 'Unable to create news update.' })
   }
 })
 
-app.put('/api/admin/news/:id', isAuthenticated, requireBodyData, (req, res) => {
+app.put('/api/admin/news/:id', isAuthenticated, requireBodyData, async (req, res) => {
   const validation = validateNewsInput(req.body)
   if (!validation.ok) {
     return res.status(400).json({ success: false, message: validation.message })
   }
 
   try {
-    const item = updateNewsEntry(Number(req.params.id), validation.data)
+    const item = await updateNewsEntry(Number(req.params.id), validation.data)
     return res.json({ success: true, item })
   } catch (error) {
     return res.status(500).json({ success: false, message: 'Unable to update news item.' })
   }
 })
 
-app.delete('/api/admin/news/:id', isAuthenticated, (req, res) => {
+app.delete('/api/admin/news/:id', isAuthenticated, async (req, res) => {
   try {
-    const ok = deleteNewsEntry(Number(req.params.id))
+    const ok = await deleteNewsEntry(Number(req.params.id))
     if (!ok) return res.status(404).json({ success: false, message: 'News item not found.' })
     res.json({ success: true, message: 'News item deleted.' })
   } catch (error) {
@@ -255,45 +288,45 @@ app.delete('/api/admin/news/:id', isAuthenticated, (req, res) => {
   }
 })
 
-app.get('/api/admin/events', isAuthenticated, (_req, res) => {
+app.get('/api/admin/events', isAuthenticated, async (_req, res) => {
   try {
-    res.json({ success: true, items: listEvents() })
+    res.json({ success: true, items: await listEvents() })
   } catch (error) {
     res.status(500).json({ success: false, message: 'Unable to load events.' })
   }
 })
 
-app.post('/api/admin/events', isAuthenticated, requireBodyData, (req, res) => {
+app.post('/api/admin/events', isAuthenticated, requireBodyData, async (req, res) => {
   const validation = validateEventInput(req.body)
   if (!validation.ok) {
     return res.status(400).json({ success: false, message: validation.message })
   }
 
   try {
-    const item = createEventEntry(validation.data)
+    const item = await createEventEntry(validation.data)
     return res.status(201).json({ success: true, item })
   } catch (error) {
     return res.status(500).json({ success: false, message: 'Unable to create event.' })
   }
 })
 
-app.put('/api/admin/events/:id', isAuthenticated, requireBodyData, (req, res) => {
+app.put('/api/admin/events/:id', isAuthenticated, requireBodyData, async (req, res) => {
   const validation = validateEventInput(req.body)
   if (!validation.ok) {
     return res.status(400).json({ success: false, message: validation.message })
   }
 
   try {
-    const item = updateEventEntry(Number(req.params.id), validation.data)
+    const item = await updateEventEntry(Number(req.params.id), validation.data)
     return res.json({ success: true, item })
   } catch (error) {
     return res.status(500).json({ success: false, message: 'Unable to update event.' })
   }
 })
 
-app.delete('/api/admin/events/:id', isAuthenticated, (req, res) => {
+app.delete('/api/admin/events/:id', isAuthenticated, async (req, res) => {
   try {
-    const ok = deleteEventEntry(Number(req.params.id))
+    const ok = await deleteEventEntry(Number(req.params.id))
     if (!ok) return res.status(404).json({ success: false, message: 'Event not found.' })
     res.json({ success: true, message: 'Event deleted.' })
   } catch (error) {
@@ -301,9 +334,9 @@ app.delete('/api/admin/events/:id', isAuthenticated, (req, res) => {
   }
 })
 
-app.get('/api/admin/gallery', isAuthenticated, (_req, res) => {
+app.get('/api/admin/gallery', isAuthenticated, async (_req, res) => {
   try {
-    res.json({ success: true, items: listGallery() })
+    res.json({ success: true, items: await listGallery() })
   } catch (error) {
     res.status(500).json({ success: false, message: 'Unable to load gallery items.' })
   }
@@ -336,7 +369,7 @@ app.post('/api/admin/gallery/upload', isAuthenticated, upload.single('image'), a
       return res.status(400).json({ success: false, message: payload.message })
     }
 
-    const item = createGalleryEntry(payload.data)
+    const item = await createGalleryEntry(payload.data)
     return res.status(201).json({ success: true, item })
   } catch (error) {
     return res.status(500).json({ success: false, message: 'Photo upload failed. Please try again.' })
@@ -345,7 +378,7 @@ app.post('/api/admin/gallery/upload', isAuthenticated, upload.single('image'), a
 
 app.delete('/api/admin/gallery/:id', isAuthenticated, async (req, res) => {
   try {
-    const item = listGallery().find((entry) => Number(entry.id) === Number(req.params.id))
+    const item = (await listGallery()).find((entry) => Number(entry.id) === Number(req.params.id))
     if (!item) {
       return res.status(404).json({ success: false, message: 'Gallery item not found.' })
     }
@@ -362,7 +395,7 @@ app.delete('/api/admin/gallery/:id', isAuthenticated, async (req, res) => {
       }
     }
 
-    const ok = deleteGalleryEntry(Number(req.params.id))
+    const ok = await deleteGalleryEntry(Number(req.params.id))
     if (!ok) {
       return res.status(404).json({ success: false, message: 'Gallery item could not be removed.' })
     }
@@ -390,8 +423,19 @@ app.get('*', (req, res) => {
   return res.sendFile(path.join(process.cwd(), 'dist', 'index.html'))
 })
 
-ensureInitialAdmin()
+async function startServer() {
+  await ensureDatabaseReady()
+  await ensureInitialAdmin()
+  app.listen(PORT, () => {
+    console.log(`Samvida Trust CMS running on http://localhost:${PORT}`)
+  })
+}
 
-app.listen(PORT, () => {
-  console.log(`Samvida Trust CMS running on http://localhost:${PORT}`)
-})
+if (process.env.NODE_ENV !== 'test') {
+  startServer().catch((error) => {
+    console.error('Unable to start server:', error.message)
+    process.exitCode = 1
+  })
+}
+
+export { app, startServer }

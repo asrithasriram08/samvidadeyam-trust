@@ -3,5 +3,9 @@ dist
 .DS_Store
 *.local
 .vscode/*
-!.vscode/extensions.json\
+!.vscode/extensions.json
 .env
+data/*.db-wal
+data/*.db-shm
+data/uploads/
+*.log

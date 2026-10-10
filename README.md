@@ -211,3 +211,38 @@ from `Samvidadeyam-Trust.pptx` or https://samvidadeyam.in/. Nothing has been inv
 where a source was incomplete (Cultural Preservation detail, Contact email/mobile),
 the site says so honestly rather than filling the gap with plausible-sounding text.
 If you add new content later, please keep to this standard.
+## Production database and security foundation
+
+The application keeps SQLite as a local-development fallback, but production requires
+`DATABASE_URL` pointing to PostgreSQL. Set a random `SESSION_SECRET` (at least 32
+characters) and `ALLOWED_ORIGINS` before starting the production service. PostgreSQL
+migrations are versioned under `server/migrations/` and can be applied with:
+
+```bash
+npm run db:migrate
+```
+
+Do not run that command against production until the database backup and deployment
+change have been reviewed. To import the preserved SQLite database into a separate
+PostgreSQL database, apply migrations first and then run:
+
+```bash
+npm run db:import-sqlite
+```
+
+The import command requires an explicit `DATABASE_URL`, reads `data/samvida.db` in
+read-only mode, preserves bcrypt password hashes, and uses a transaction. Back up
+both databases before importing. Rollback is performed by restoring the PostgreSQL
+backup or dropping only the test database; never delete the SQLite source.
+
+Production administrators must be created explicitly, without credentials in source
+control:
+
+```bash
+npm run provision-admin
+```
+
+The command prompts for the username and password and stores a bcrypt hash. The
+browser admin uses a PostgreSQL-backed session store when PostgreSQL is configured,
+secure cookies behind Render's proxy, CSRF tokens, login rate limiting, Helmet
+security headers, and an allowlisted CORS origin.

@@ -3,6 +3,13 @@ import React, { useEffect, useMemo, useState } from 'react'
 const initialNews = { title: '', description: '', date: '', image: '', published: true }
 const initialEvent = { title: '', description: '', date: '', time: '', location: '', image: '', published: true }
 
+async function getCsrfToken() {
+  const response = await fetch('/api/csrf-token', { credentials: 'include' })
+  const data = await response.json()
+  if (!response.ok || !data.token) throw new Error(data.message || 'Unable to initialize secure session.')
+  return data.token
+}
+
 function AdminLogin({ onLogin }) {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -108,9 +115,10 @@ function AdminDashboard({ admin, onLogout }) {
     const method = editNewsId ? 'PUT' : 'POST'
 
     try {
+      const csrfToken = await getCsrfToken()
       const response = await fetch(endpoint, {
         method,
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'x-csrf-token': csrfToken },
         credentials: 'include',
         body: JSON.stringify(payload),
       })
@@ -128,7 +136,8 @@ function AdminDashboard({ admin, onLogout }) {
   const deleteNews = async (id) => {
     if (!window.confirm('Delete this update?')) return
     try {
-      const response = await fetch(`/api/admin/news/${id}`, { method: 'DELETE', credentials: 'include' })
+      const csrfToken = await getCsrfToken()
+      const response = await fetch(`/api/admin/news/${id}`, { method: 'DELETE', headers: { 'x-csrf-token': csrfToken }, credentials: 'include' })
       const data = await response.json()
       if (!response.ok || !data.success) throw new Error(data.message || 'Unable to delete news item.')
       setStatus({ type: 'success', message: 'News item deleted.' })
@@ -145,9 +154,10 @@ function AdminDashboard({ admin, onLogout }) {
     const method = editEventId ? 'PUT' : 'POST'
 
     try {
+      const csrfToken = await getCsrfToken()
       const response = await fetch(endpoint, {
         method,
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'x-csrf-token': csrfToken },
         credentials: 'include',
         body: JSON.stringify(payload),
       })
@@ -165,7 +175,8 @@ function AdminDashboard({ admin, onLogout }) {
   const deleteEvent = async (id) => {
     if (!window.confirm('Delete this event?')) return
     try {
-      const response = await fetch(`/api/admin/events/${id}`, { method: 'DELETE', credentials: 'include' })
+      const csrfToken = await getCsrfToken()
+      const response = await fetch(`/api/admin/events/${id}`, { method: 'DELETE', headers: { 'x-csrf-token': csrfToken }, credentials: 'include' })
       const data = await response.json()
       if (!response.ok || !data.success) throw new Error(data.message || 'Unable to delete event.')
       setStatus({ type: 'success', message: 'Event deleted.' })
@@ -191,8 +202,10 @@ function AdminDashboard({ admin, onLogout }) {
 
     setUploading(true)
     try {
+      const csrfToken = await getCsrfToken()
       const response = await fetch('/api/admin/gallery/upload', {
         method: 'POST',
+        headers: { 'x-csrf-token': csrfToken },
         credentials: 'include',
         body: formData,
       })
@@ -212,7 +225,8 @@ function AdminDashboard({ admin, onLogout }) {
   const deleteGalleryItem = async (id) => {
     if (!window.confirm('Delete this photo permanently?')) return
     try {
-      const response = await fetch(`/api/admin/gallery/${id}`, { method: 'DELETE', credentials: 'include' })
+      const csrfToken = await getCsrfToken()
+      const response = await fetch(`/api/admin/gallery/${id}`, { method: 'DELETE', headers: { 'x-csrf-token': csrfToken }, credentials: 'include' })
       const data = await response.json()
       if (!response.ok || !data.success) throw new Error(data.message || 'Unable to delete photo.')
       setStatus({ type: 'success', message: 'Photo deleted.' })
@@ -224,7 +238,8 @@ function AdminDashboard({ admin, onLogout }) {
 
   const logout = async () => {
     try {
-      await fetch('/api/admin/logout', { method: 'POST', credentials: 'include' })
+      const csrfToken = await getCsrfToken()
+      await fetch('/api/admin/logout', { method: 'POST', headers: { 'x-csrf-token': csrfToken }, credentials: 'include' })
       onLogout()
     } catch (_error) {
       onLogout()
