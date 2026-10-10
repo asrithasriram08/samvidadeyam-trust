@@ -44,6 +44,7 @@ export const hero = {
   ],
   ctaPrimary: { label: 'Explore Our Work', to: '/activities' },
   ctaSecondary: { label: 'Contribute', to: '/contribute' },
+  ctaTertiary: { label: 'Contact Us', to: '/contact' },
   journey: {
     title: 'Our Journey of Seva',
     intro: 'Since its inception, Samvida Deyam has been committed to supporting and preserving our Vedic heritage through meaningful seva. Our initiatives include:',

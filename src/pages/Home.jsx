@@ -36,8 +36,9 @@ export default function Home() {
           </div>
 
           <div className="hero__actions">
-            <NavLink to={hero.ctaPrimary.to} className="btn btn--primary">{hero.ctaPrimary.label}</NavLink>
-            <NavLink to={hero.ctaSecondary.to} className="btn btn--outline">{hero.ctaSecondary.label}</NavLink>
+            <NavLink to={hero.ctaPrimary.to} className="btn btn--outline">{hero.ctaPrimary.label}</NavLink>
+            <NavLink to={hero.ctaSecondary.to} className="btn btn--primary">{hero.ctaSecondary.label}</NavLink>
+            <NavLink to={hero.ctaTertiary.to} className="btn btn--outline">{hero.ctaTertiary.label}</NavLink>
           </div>
         </div>
       </section>
