@@ -87,6 +87,13 @@ export const coreBelief = {
 export const trustees = {
   title: 'TRUSTEES',
   intro: 'The trustees guide the long-term stewardship and governance of Samvidadeyam Trust.',
+  preview: [
+    { name: 'Ramanathan J', role: 'President', image: '/assets/trustees/ramanathan-image.jpg' },
+    { name: 'Sriram Agoram', role: 'Secretary', image: '/assets/trustees/sriram-image.jpg' },
+    { name: 'N. Ramakrishnan', role: 'Treasurer', image: '/assets/trustees/ramakrishnan-image.jpg' },
+    { name: 'G.A. Sreevatsadhara Sarma', role: 'Executive Trustee', image: '/assets/trustees/ga-sarma-image.jpg' },
+    { name: 'Venkatraman E.', role: 'Executive Trustee', image: '/assets/trustees/venkatraman-image.jpg' },
+  ],
 };
 
 export const vision = {

@@ -2,15 +2,35 @@ import React from 'react'
 import { NavLink } from 'react-router-dom'
 import SectionHeader from '../components/SectionHeader.jsx'
 import ScrollReveal from '../components/ScrollReveal.jsx'
-import LineageThread from '../components/LineageThread.jsx'
 import MissionCard from '../components/MissionCard.jsx'
 import ActivityCard from '../components/ActivityCard.jsx'
 import { AccordionItem } from '../components/Accordion.jsx'
-import { hero, coreBelief, essence, vision, mission, vedicChanting, activities, inAction, whyItMatters, media } from '../data/siteContent.js'
+import BrandMark from '../components/BrandMark.jsx'
+import { hero, coreBelief, essence, vision, mission, vedicChanting, activities, inAction, whyItMatters, media, trustees } from '../data/siteContent.js'
 
 export default function Home() {
   return (
     <>
+      <section className="home-masthead" aria-label="Samvidadeyam Trust message">
+        <div className="container home-masthead__inner">
+          <div className="home-masthead__identity">
+            <BrandMark size="lg" alt={`${hero.eyebrow} emblem`} />
+            <div className="home-masthead__tagline">
+              <p className="home-masthead__sanskrit sanskrit">
+                संविदादेयम्
+              </p>
+              <p className="home-masthead__name">Samvidadeyam</p>
+              <p className="home-masthead__motto">Give with understanding</p>
+            </div>
+          </div>
+          <div className="home-masthead__actions">
+            <NavLink to={hero.ctaPrimary.to} className="btn btn--outline">{hero.ctaPrimary.label}</NavLink>
+            <NavLink to={hero.ctaSecondary.to} className="btn btn--primary">{hero.ctaSecondary.label}</NavLink>
+            <NavLink to={hero.ctaTertiary.to} className="btn btn--outline">{hero.ctaTertiary.label}</NavLink>
+          </div>
+        </div>
+      </section>
+
       {/* ---------------- Hero ---------------- */}
       <section className="hero">
         <div className="container hero__grid">
@@ -19,27 +39,28 @@ export default function Home() {
             <h1 className="hero__headline">{hero.headline}</h1>
             <p className="hero__subhead">{hero.subhead}</p>
             <div className="hero__body">
-              {hero.body.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+              <p>{hero.body.join(' ')}</p>
             </div>
           </div>
 
           <div className="hero__visual">
-            <LineageThread variant="hero" className="hero__thread" />
-            <div className="hero__journey">
-              <h2>{hero.journey.title}</h2>
-              <p>{hero.journey.intro}</p>
-              <ul>
-                {hero.journey.initiatives.map((initiative) => <li key={initiative}>{initiative}</li>)}
-              </ul>
-              <p>{hero.journey.closing}</p>
+            <div className="hero__trustees">
+              <h2>Our Trustees</h2>
+              <div className="hero__trustee-grid">
+                {trustees.preview.map((trustee) => (
+                  <article className="hero__trustee" key={trustee.name}>
+                    <img src={trustee.image} alt="" />
+                    <div>
+                      <h3>{trustee.name}</h3>
+                      <p>{trustee.role}</p>
+                    </div>
+                  </article>
+                ))}
+              </div>
+              <NavLink to="/trustees" className="btn btn--outline btn--sm">Meet the trustees</NavLink>
             </div>
           </div>
 
-          <div className="hero__actions">
-            <NavLink to={hero.ctaPrimary.to} className="btn btn--outline">{hero.ctaPrimary.label}</NavLink>
-            <NavLink to={hero.ctaSecondary.to} className="btn btn--primary">{hero.ctaSecondary.label}</NavLink>
-            <NavLink to={hero.ctaTertiary.to} className="btn btn--outline">{hero.ctaTertiary.label}</NavLink>
-          </div>
         </div>
       </section>
 
